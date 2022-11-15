@@ -12,7 +12,7 @@ public class Professor {
 	private String rg;
 	private String nome_mae;
 	private String nome_pai;
-	private int id;
+	private Long id;
 	
 	
 	private static List<Professor> cadProfessor = new ArrayList<>();
@@ -77,11 +77,11 @@ public class Professor {
 		this.nome_pai = nome_pai;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -89,9 +89,6 @@ public class Professor {
 		return cadProfessor;
 	}
 
-	public static void setCadProfessor(List<Professor> cadProfessor) {
-		Professor.cadProfessor = cadProfessor;
-	}
 	
 	
 	

@@ -33,8 +33,8 @@ public class ControladorPrincipal extends Frame implements ActionListener, Windo
 	
 	public JtpGuias getGuiaPaineis() {
 		guiaPaineis = new JtpGuias();
-		guiaPaineis.addTab("Dashboard", null, getDashboard(), null);
-		guiaPaineis.addTab("Professor", null, professor, null);
+		guiaPaineis.addTab("Informação", null, getDashboard(), null);
+		guiaPaineis.addTab("Professor", null, getProfessor(), null);
 		return guiaPaineis;
 	}
 	
