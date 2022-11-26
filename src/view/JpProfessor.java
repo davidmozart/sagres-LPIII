@@ -21,6 +21,8 @@ public class JpProfessor extends JPanel {
 	private JPanel painel_principal_professor;
 	private JLabel lblDashboard;
 	private JTable tabela_professor;
+	private JButton btnEditarProf;
+	private JButton btnExcluirProf;
 	
 
 	/**
@@ -33,12 +35,14 @@ public class JpProfessor extends JPanel {
 		setLayout(null);
 		add(getScrollPane());
 		add(getBtnAdicionarProfessor());
+		add(getBtnEditarProf());
 		add(getPainel_principal_professor());
+		add(getBtnExcluirProf());
 	}
-	private JButton getBtnAdicionarProfessor() {
+	public JButton getBtnAdicionarProfessor() {
 		if (btnAdicionarProfessor == null) {
 			btnAdicionarProfessor = new JButton("Adicionar Professor");
-			btnAdicionarProfessor.setBounds(354, 280, 173, 23);
+			btnAdicionarProfessor.setBounds(307, 280, 173, 23);
 			btnAdicionarProfessor.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 				}
@@ -50,7 +54,7 @@ public class JpProfessor extends JPanel {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 74, 726, 152);
+			scrollPane.setBounds(10, 74, 785, 152);
 			scrollPane.setViewportView(getTabela_professor());
 			//scrollPane.setViewportView(getTabela_professor());
 		}
@@ -60,7 +64,7 @@ public class JpProfessor extends JPanel {
 	private JPanel getPainel_principal_professor() {
 		if (painel_principal_professor == null) {
 			painel_principal_professor = new JPanel();
-			painel_principal_professor.setBounds(0, 0, 752, 62);
+			painel_principal_professor.setBounds(0, 0, 795, 62);
 			painel_principal_professor.setLayout(null);
 			painel_principal_professor.setBackground(new Color(119, 104, 255));
 			painel_principal_professor.add(getLblDashboard());
@@ -71,23 +75,37 @@ public class JpProfessor extends JPanel {
 		if (lblDashboard == null) {
 			lblDashboard = new JLabel("Professor");
 			lblDashboard.setForeground(Color.WHITE);
-			lblDashboard.setFont(new Font("Arial", Font.PLAIN, 22));
+			lblDashboard.setFont(new Font("Dialog", Font.BOLD, 38));
 			lblDashboard.setBackground((Color) null);
-			lblDashboard.setBounds(31, 20, 149, 31);
+			lblDashboard.setBounds(294, 12, 207, 31);
 		}
 		return lblDashboard;
 	}
-	private JTable getTabela_professor() {
+	public JTable getTabela_professor() {
 		if (tabela_professor == null) {
 			tabela_professor = new JTable();
 			tabela_professor.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
 				new String[] {
-					"ID", "CPF", "RG", "Nome", "Data de Nascimento", "Nome da m\u00E3e", "Nome do pai", "Data de admiss\u00E3o"
+					
 				}
 			));
 		}
 		return tabela_professor;
+	}
+	public JButton getBtnEditarProf() {
+		if (btnEditarProf == null) {
+			btnEditarProf = new JButton("Editar Professor");
+			btnEditarProf.setBounds(71, 279, 165, 25);
+		}
+		return btnEditarProf;
+	}
+	public JButton getBtnExcluirProf() {
+		if (btnExcluirProf == null) {
+			btnExcluirProf = new JButton("Excluir Professor");
+			btnExcluirProf.setBounds(551, 279, 173, 25);
+		}
+		return btnExcluirProf;
 	}
 }

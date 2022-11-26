@@ -1,10 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class Professor {
+@SuppressWarnings("serial")
+public class Professor implements Serializable{
 	
+
 	private String nome;
 	private String data_adm;
 	private String data_nasc;
@@ -15,6 +19,9 @@ public class Professor {
 	private Long id;
 	
 	
+
+
+
 	private static List<Professor> cadProfessor = new ArrayList<>();
 	
 	public Professor() {
@@ -89,9 +96,21 @@ public class Professor {
 		return cadProfessor;
 	}
 
-	
-	
-	
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(cpf);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Professor other = (Professor) obj;
+		return Objects.equals(cpf, other.cpf);
+	}	
 	
 }

@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 import model.Professor;
+import model.dao.DaoFactory;
+import model.dao.ProfessorDao;
 import view.CadastroProfessor;
 import view.JpCadastroProfessor;
 
@@ -16,12 +18,18 @@ import view.JpCadastroProfessor;
 public class ControladorCadastroProfessor extends CadastroProfessor implements ActionListener, WindowListener{
 	private static ControladorCadastroProfessor instancia;
 	private static ControladorPrincipal contPrin = ControladorPrincipal.getInstance();
-	private static JpCadastroProfessor painelCadastroProfessor;
+	
+	private JpCadastroProfessor painelCadastroProfessor;
 	
 	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private Professor professor;
 	
+	public static synchronized ControladorCadastroProfessor getInstance() {
+		instancia = new ControladorCadastroProfessor();
+		instancia.addWindowListener(instancia);
+		return instancia;
+	}
 
 	public ControladorCadastroProfessor() {
 		// TODO Auto-generated constructor stub
@@ -30,13 +38,22 @@ public class ControladorCadastroProfessor extends CadastroProfessor implements A
 
 	private void addEventos() {
 		// TODO Auto-generated method stub
-		getContentPane().add(painelCadastroProfessor);
+		setContentPane(painelCadastroProfessor());
+		//getContentPane().add();
 	}
-	public static synchronized ControladorCadastroProfessor getInstance() {
-		instancia = new ControladorCadastroProfessor();
-		instancia.addWindowListener(instancia);
-		return instancia;
+
+	private JpCadastroProfessor painelCadastroProfessor() {
+		if (painelCadastroProfessor == null) {
+			painelCadastroProfessor = new JpCadastroProfessor();
+			painelCadastroProfessor.remove(painelCadastroProfessor.getBtnPesquisar());
+		}
+		painelCadastroProfessor.getBtnAdicionar().addActionListener(this);
+		painelCadastroProfessor.getBtnCancelar().addActionListener(this);
+		return painelCadastroProfessor;
 	}
+
+	 
+	  
 
 	@Override
 	public void windowActivated(WindowEvent arg0) {
@@ -85,17 +102,36 @@ public class ControladorCadastroProfessor extends CadastroProfessor implements A
 		// TODO Auto-generated method stub
 		if (e.getSource() == painelCadastroProfessor.getBtnAdicionar()) {
 			
-			String dataNascimento= sdf.format(painelCadastroProfessor.getDCNascimento().getDate());
-			String dataAdmissao = sdf.format(painelCadastroProfessor.getDCAdmissao().getDate());
-			try {
-				professor = new Professor();
-				professor.setCpf(painelCadastroProfessor.getTfCpf().getText());
-				professor.setRg(painelCadastroProfessor.getTfIdentidade().getText());
-				professor.setNome(painelCadastroProfessor.getTfNomeProfessor().getText());
-				professor.setData_nasc(dataNascimento);
-				professor.setNome_mae(painelCadastroProfessor.getTfNomeMae().getText());
-				professor.setNome_pai(painelCadastroProfessor.getTfNomePai().getText());
-				professor.setData_adm(dataAdmissao);
+			try {				
+				//
+				if (painelCadastroProfessor.getTfCpf().getText().isEmpty() && 
+						painelCadastroProfessor.getTfIdentidade().getText().isEmpty() &&
+						painelCadastroProfessor.getTfNomeProfessor().getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null, "Campos Obrigatórios!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+				else if(ValidaCpf.isCPF(painelCadastroProfessor.getTfCpf().getText())) {
+					String dataNascimento= sdf.format(painelCadastroProfessor.getDCNascimento().getDate());
+					String dataAdmissao = sdf.format(painelCadastroProfessor.getDCAdmissao().getDate());
+					professor = new Professor();
+					ProfessorDao professorDao = DaoFactory.createProfessorDao();
+					painelCadastroProfessor.getTfCpf().setText(painelCadastroProfessor.getTfCpf().getText());
+					professor.setCpf(painelCadastroProfessor.getTfCpf().getText());
+					professor.setRg(painelCadastroProfessor.getTfIdentidade().getText());
+					professor.setNome(painelCadastroProfessor.getTfNomeProfessor().getText());
+					professor.setData_nasc(dataNascimento);
+					professor.setNome_mae(painelCadastroProfessor.getTfNomeMae().getText());
+					professor.setNome_pai(painelCadastroProfessor.getTfNomePai().getText());
+					professor.setData_adm(dataAdmissao);
+					professorDao.insert(professor);
+					JOptionPane.showMessageDialog(null, "Adicionado!", "AVISO", JOptionPane.YES_OPTION);
+					this.dispose();
+					contPrin.setEnabled(true);
+				}else {
+					JOptionPane.showMessageDialog(null, "CPF Inválido!", "Erro de CPF", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				//professorDao.insert(professor);
 			} catch (Exception e1) {
 				// TODO: handle exception
 				JOptionPane.showMessageDialog(null, "Erro: " + e1.getMessage());
@@ -103,7 +139,7 @@ public class ControladorCadastroProfessor extends CadastroProfessor implements A
 		} else if (e.getSource() == painelCadastroProfessor.getBtnCancelar()) {
 			this.dispose();
 			contPrin.setEnabled(true);
-		}
+		} 
 	}
 
 }

@@ -2,18 +2,16 @@ package view;
 
 import javax.swing.JFrame;
 
-
 @SuppressWarnings("serial")
-public class CadastroProfessor extends JFrame {
+public class FrAtualizaProfessor extends JFrame {
 
-	/**
-	 * Launch the application.
-	 */
+
+
 
 	/**
 	 * Create the frame.
 	 */
-	public CadastroProfessor() {
+	public FrAtualizaProfessor() {
 		setTitle("Cadastro do Professor");
 		setResizable(false);
 		setLocationRelativeTo(null);
