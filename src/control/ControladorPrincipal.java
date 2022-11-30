@@ -128,7 +128,7 @@ public class ControladorPrincipal extends FramePrincipal implements ActionListen
 		
 		DefaultTableModel modelo = (DefaultTableModel) professor.getTabela_professor()
 				.getModel();
-		
+		modelo.setRowCount(0);
 		ProfessorDao professorDao = DaoFactory.createProfessorDao();
 		List<Professor> prof = professorDao.findAll();
 			for (Professor pf : prof) {

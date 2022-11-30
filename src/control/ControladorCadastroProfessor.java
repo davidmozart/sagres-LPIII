@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.JOptionPane;
 
@@ -113,20 +114,30 @@ public class ControladorCadastroProfessor extends CadastroProfessor implements A
 				else if(ValidaCpf.isCPF(painelCadastroProfessor.getTfCpf().getText())) {
 					String dataNascimento= sdf.format(painelCadastroProfessor.getDCNascimento().getDate());
 					String dataAdmissao = sdf.format(painelCadastroProfessor.getDCAdmissao().getDate());
-					professor = new Professor();
-					ProfessorDao professorDao = DaoFactory.createProfessorDao();
-					painelCadastroProfessor.getTfCpf().setText(painelCadastroProfessor.getTfCpf().getText());
-					professor.setCpf(painelCadastroProfessor.getTfCpf().getText());
-					professor.setRg(painelCadastroProfessor.getTfIdentidade().getText());
-					professor.setNome(painelCadastroProfessor.getTfNomeProfessor().getText());
-					professor.setData_nasc(dataNascimento);
-					professor.setNome_mae(painelCadastroProfessor.getTfNomeMae().getText());
-					professor.setNome_pai(painelCadastroProfessor.getTfNomePai().getText());
-					professor.setData_adm(dataAdmissao);
-					professorDao.insert(professor);
-					JOptionPane.showMessageDialog(null, "Adicionado!", "AVISO", JOptionPane.YES_OPTION);
-					this.dispose();
-					contPrin.setEnabled(true);
+					Calendar dataNasc = Calendar.getInstance();
+					dataNasc.setTime(painelCadastroProfessor.getDCNascimento().getDate()); 
+					Calendar dataAdm = Calendar.getInstance();
+					dataAdm.setTime(painelCadastroProfessor.getDCAdmissao().getDate());
+					professor = new Professor(); 
+					int idade = dataAdm.get(Calendar.YEAR) - dataNasc.get(Calendar.YEAR);
+					if (idade > 17) {
+						ProfessorDao professorDao = DaoFactory.createProfessorDao();
+						painelCadastroProfessor.getTfCpf().setText(painelCadastroProfessor.getTfCpf().getText());
+						professor.setCpf(painelCadastroProfessor.getTfCpf().getText());
+						professor.setRg(painelCadastroProfessor.getTfIdentidade().getText());
+						professor.setNome(painelCadastroProfessor.getTfNomeProfessor().getText());
+						professor.setData_nasc(dataNascimento);
+						professor.setNome_mae(painelCadastroProfessor.getTfNomeMae().getText());
+						professor.setNome_pai(painelCadastroProfessor.getTfNomePai().getText());
+						professor.setData_adm(dataAdmissao);
+						professorDao.insert(professor);
+						JOptionPane.showMessageDialog(null, "Adicionado!", "AVISO", JOptionPane.YES_OPTION);
+						contPrin.addTabelaProfessor();
+						this.dispose();
+						contPrin.setEnabled(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Data de Admissão tem que ser superior à 18 anos da data de Nascimento!", "DATA", JOptionPane.ERROR_MESSAGE);
+					}
 				}else {
 					JOptionPane.showMessageDialog(null, "CPF Inválido!", "Erro de CPF", JOptionPane.ERROR_MESSAGE);
 				}

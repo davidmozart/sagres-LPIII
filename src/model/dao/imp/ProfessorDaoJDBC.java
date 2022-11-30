@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import db.DB;
 import db.DbException;
 import model.Professor;
@@ -65,7 +63,6 @@ public class ProfessorDaoJDBC implements ProfessorDao{
 	@Override
 	public void update(Professor obj) {
 		PreparedStatement st = null;
-		JOptionPane.showMessageDialog(null, obj.getNome());
 		try {
 			st = conn.prepareStatement(
 					"UPDATE professor "
@@ -164,7 +161,7 @@ public class ProfessorDaoJDBC implements ProfessorDao{
 	public void deletebyCpf(String cpf) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("DELETE * FROM professor WHERE cpf = ?");
+			st = conn.prepareStatement("DELETE FROM professor WHERE professor.cpf = ?");
 			st.setString(1, cpf);
 			st.executeUpdate();
 		}

@@ -2,6 +2,10 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -34,7 +38,10 @@ public class JpCadastroProfessor extends JPanel {
 	private JDateChooser dCNascimento;
 	private JDateChooser dCAdmissao;
 	private JButton btnPesquisar;
-	
+	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	private Date dataIni;
+	private Date datafim;
+	private Calendar calendar = Calendar.getInstance();
 
 	/**
 	 * Create the panel.
@@ -44,7 +51,6 @@ public class JpCadastroProfessor extends JPanel {
 		setLayout(null);
 		this.setName("");
 		this.setBackground(UIManager.getColor("ArrowButton.background"));
-		//getTfCpf().setDocument(new LimitaCaracteres(14, LimitaCaracteres.TipoEntrada.NUMEROINTEIRO));
 		add(getLblCpf());
 		add(getTfCpf());
 		add(getLblIdentidade());
@@ -197,7 +203,16 @@ public class JpCadastroProfessor extends JPanel {
 	public JDateChooser getDCNascimento() {
 		if (dCNascimento == null) {
 			dCNascimento = new JDateChooser();
+			try {
+				dataIni = sdf.parse("01/01/1920");
+				datafim = sdf.parse("31/12/2004");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			dCNascimento.setDateFormatString("dd '/' MM '/' yyyy");
+			dCNascimento.setMinSelectableDate(dataIni);
+			dCNascimento.setMaxSelectableDate(datafim);
 			dCNascimento.setBounds(221, 162, 131, 19);
 		}
 		return dCNascimento;
@@ -205,7 +220,16 @@ public class JpCadastroProfessor extends JPanel {
 	public JDateChooser getDCAdmissao() {
 		if (dCAdmissao == null) {
 			dCAdmissao = new JDateChooser();
+			
+			try {
+				dataIni = sdf.parse("01/01/1990");					
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			dCAdmissao.setMinSelectableDate(dataIni);
 			dCAdmissao.setDateFormatString("dd '/' MM '/' yyyy");
+			dCAdmissao.setMaxSelectableDate(new Date());
 			dCAdmissao.setBounds(203, 259, 131, 19);
 		}
 		return dCAdmissao;

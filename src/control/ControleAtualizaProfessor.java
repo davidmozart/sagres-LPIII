@@ -144,17 +144,13 @@ public class ControleAtualizaProfessor extends FrAtualizaProfessor implements Ac
 				String dataNascimento= sdf.format(painelEditaProfessor.getDCNascimento().getDate());
 				String dataAdmissao = sdf.format(painelEditaProfessor.getDCAdmissao().getDate());
 				professor.setCpf(painelEditaProfessor.getTfCpf().getText());
-				
 				professor.setRg(painelEditaProfessor.getTfIdentidade().getText());
-				JOptionPane.showMessageDialog(null, professor.getRg());
 				professor.setNome(painelEditaProfessor.getTfNomeProfessor().getText());
 				professor.setData_nasc(dataNascimento);
 				professor.setNome_mae(painelEditaProfessor.getTfNomeMae().getText());
 				professor.setNome_pai(painelEditaProfessor.getTfNomePai().getText());
 				professor.setData_adm(dataAdmissao);
-				
 				professorDao.update(professor);
-				
 				JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "ALTERAR", JOptionPane.INFORMATION_MESSAGE);
 				contPrin.addTabelaProfessor();
 				this.dispose();
